@@ -85,8 +85,8 @@ function updateGameResultZone(result, userChoice, compChoice) {
     const lostText = document.getElementById('lost-text');
     const tieText = document.getElementById('tie-text');
     const subText = document.querySelector('.sub-text');
-    const playAgainBtn = document.querySelector('.playBtn');
-    const replayBtn = document.querySelector('.replayBtn');
+    const playAgainBtn = document.querySelector('.playButton');
+    const replayBtn = document.querySelector('.replayButton');
     const userIcon = document.querySelector('.user-sd-icon');
     const pcIcon = document.querySelector('.pc-sd-icon');
 
@@ -95,12 +95,14 @@ function updateGameResultZone(result, userChoice, compChoice) {
         lostText.style.display = 'none';
         subText.style.display = 'none';
         playAgainBtn.style.display = 'none';
-        document.querySelector('.nextBtn').style.display = 'none';
+        document.querySelector('.nextButton').style.display = 'none';
 
         tieText.style.display = 'block';
         replayBtn.style.display = 'block';
 
         updateChoiceDisplay(userChoice, compChoice);
+        userIcon.classList.remove('green-color');
+        pcIcon.classList.remove('green-color');
        
     } else if (result === 'user') {
         lostText.style.display = 'none';
@@ -110,22 +112,24 @@ function updateGameResultZone(result, userChoice, compChoice) {
         winText.style.display = 'block';
         subText.style.display = 'block';
         playAgainBtn.style.display = 'block';
-        document.querySelector('.nextBtn').style.display = 'inline';
+        document.querySelector('.nextButton').style.display = 'inline';
 
         updateChoiceDisplay(userChoice, compChoice);
-
-        
+        userIcon.classList.add('green-color');
+        pcIcon.classList.remove('green-color');
     } else if (result === 'comp') {
         winText.style.display = 'none';
         tieText.style.display = 'none';
         replayBtn.style.display = 'none';
-        document.querySelector('.nextBtn').style.display = 'none';
+        document.querySelector('.nextButton').style.display = 'none';
 
         lostText.style.display = 'block';
         subText.style.display = 'block';
         playAgainBtn.style.display = 'block';
 
         updateChoiceDisplay(userChoice, compChoice);
+        userIcon.classList.remove('green-color');
+        pcIcon.classList.add('green-color');
 
         
     }
@@ -159,13 +163,13 @@ function handlePlayAgain() {
     document.querySelector('.playing-area').style.display = 'flex';
     document.querySelector('.result-area').style.display = 'none';
     document.querySelector('.game-container').style.display = 'block';
-    document.querySelector('.winner-screen').style.display = 'none';
+    document.querySelector('.congrats').style.display = 'none';
 }
 
 function handleNextPage() {
     document.querySelector('.game-container').style.display = 'none';
     document.querySelector('.congrats').style.display = 'flex';
-    document.querySelector('.nextBtn').style.display = 'none';
+    document.querySelector('.nextButton').style.display = 'none';
 }
 
 function handleShowRules() {
@@ -178,9 +182,39 @@ function handleRemoveRules() {
     document.querySelector('.rules').style.display = 'none';
 }
 
-document.querySelector('.replayBtn').addEventListener('click', handlePlayAgain);
-document.querySelector('.playBtn').addEventListener('click', handlePlayAgain);
-document.querySelector('.nextBtn').addEventListener('click', handleNextPage);
-document.querySelector('.winnerPlayBtn').addEventListener('click', handlePlayAgain);
-document.querySelector('.rulesBtn').addEventListener('click', handleShowRules);
+
+
+function generateStars() {
+    const numberOfStars = 8;
+    const container = document.querySelector('.congrats');
+
+    for (let i = 0; i < numberOfStars; i++) {
+        const star = document.createElement('img');
+        star.src = "https://res.cloudinary.com/dajuwlr4t/image/upload/v1709573934/Star_6_euettp.png";
+        star.alt = "star";
+        star.classList.add('stars');
+
+        const size = Math.random() * 30 + 20;
+        star.style.width = star.style.height = `${size}px`;
+
+        const x = Math.random() * (window.innerWidth * 0.6) + window.innerWidth * 0.2;
+        const y = Math.random() * window.innerHeight / 2;
+
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+
+        container.appendChild(star);
+    }
+}
+
+generateStars();
+
+
+
+
+document.querySelector('.replayButton').addEventListener('click', handlePlayAgain);
+document.querySelector('.playButton').addEventListener('click', handlePlayAgain);
+document.querySelector('.nextButton').addEventListener('click', handleNextPage);
+document.querySelector('.winnerPlayButton').addEventListener('click', handlePlayAgain);
+document.querySelector('.rulesButton').addEventListener('click', handleShowRules);
 document.querySelector('.cross').addEventListener('click', handleRemoveRules);
